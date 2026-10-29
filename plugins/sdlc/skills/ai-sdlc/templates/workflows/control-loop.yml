@@ -1,0 +1,57 @@
+# Closing the loop: a schedule fetches the metric, deterministic detection decides the tier,
+# and only then is Claude invoked — read-only at 2σ, propose-via-PR at 3σ.
+name: Control loop — CI failure rate
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: read
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch metric series
+        env: { GH_TOKEN: '${{ github.token }}' }
+        run: |
+          # Daily CI failure rate for the last 40 days, oldest first. Replace with your metrics query (Prometheus etc.).
+          gh run list --limit 1000 --json conclusion,createdAt \
+            | jq -r 'group_by(.createdAt[0:10]) | .[] | ((map(select(.conclusion=="failure")) | length) / length)' \
+            > series.txt
+      - name: Detect
+        id: detect
+        run: |
+          python3 monitoring/detect.py --window 30 < series.txt | tee detect.json
+          echo "tier=$(jq -r .tier detect.json)" >> "$GITHUB_OUTPUT"
+      - name: Log only (1σ)
+        if: steps.detect.outputs.tier == '1sigma'
+        run: echo "1σ breach logged" >> "$GITHUB_STEP_SUMMARY"
+      - name: Diagnose or propose (2σ / 3σ)
+        if: steps.detect.outputs.tier == '2sigma' || steps.detect.outputs.tier == '3sigma'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          TIER: ${{ steps.detect.outputs.tier }}
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          slug="$(date +%F)-ci-failure-rate"
+          mkdir -p "intent/$slug"
+          if [ "$TIER" = "2sigma" ]; then
+            tools="Read,Grep,Glob,Write(intent/**),Bash(gh run view *),Bash(gh run list *)"
+            ask="Diagnose only; do not change code."
+          else
+            tools="Read,Grep,Glob,Edit,Write,Bash(gh run view *),Bash(gh run list *),Bash(<test command>)"
+            ask="You may also quarantine the flaky test or prepare a revert on the current branch; the review gate decides."
+          fi
+          claude -p "The CI test failure rate breached its control band: $(cat detect.json). Investigate recent failed runs with gh. $ask Write your diagnosis as intent/$slug/intent.md using intent/_TEMPLATE.md: the anomaly and its evidence, a proposed outcome, affected systems, open questions. Author: control-loop agent. Status: draft." \
+            --allowedTools "$tools"
+          git checkout -b "loop/$slug"
+          git add -A && git -c user.name="control-loop" -c user.email="control-loop@users.noreply.github.com" commit -m "intent: $slug (control band $TIER)"
+          git push -u origin "loop/$slug"
+          gh pr create --title "Control loop: CI failure rate ($TIER)" --body "Opened by the control loop. Triage: fix now, schedule, or dismiss (dismissals tune bands.yaml)."

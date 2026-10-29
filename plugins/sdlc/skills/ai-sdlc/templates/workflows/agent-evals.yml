@@ -1,0 +1,33 @@
+# Continuous evals: regression-test the agent's configuration (CLAUDE.md, skills, hooks, agents).
+name: Agent evals
+
+on:
+  pull_request:
+    paths: ['CLAUDE.md', 'REVIEW.md', '.claude/**', 'evals/**']
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  evals:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install -g @anthropic-ai/claude-code
+      # - <install the project's dependencies so the eval checks can run>
+      - name: Run eval suite
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          MIN_PASS_RATE: '0.9'
+        run: |
+          pass=0; total=0
+          for eval in evals/*.json; do
+            total=$((total+1))
+            git reset --hard -q && git clean -fdq -e evals/   # every eval starts from a clean checkout
+            claude -p "$(jq -r '.prompt' "$eval")" \
+              --allowedTools "$(jq -r '.allowedTools // "Read,Edit,Write,Grep,Glob,Bash(<test command>)"' "$eval")" \
+              --output-format json > result.json || true
+            if ./evals/check.sh "$eval" result.json; then pass=$((pass+1)); fi
+          done
+          echo "Eval pass rate: $pass/$total" | tee -a "$GITHUB_STEP_SUMMARY"
+          awk -v p="$pass" -v t="$total" -v m="$MIN_PASS_RATE" 'BEGIN { exit (t == 0 || p/t < m) }'

@@ -1,0 +1,12 @@
+{
+  "id": "status-endpoint-claim-states",
+  "source": "PR #123 (merged 2026-06-10) — reverted for the eval",
+  "prompt": "Add a GET /claims/{id}/status endpoint behind the existing auth that returns status, next step and expected date. Follow CLAUDE.md and the secure-api-review skill. Run the tests before finishing.",
+  "allowedTools": "Read,Edit,Write,Grep,Glob,Bash(make test)",
+  "checks": [
+    "make test",
+    "make lint",
+    "grep -rq 'audit' claims-api/routes/status.py",
+    "! git diff --name-only | grep -q '^claims-api/tests/'"
+  ]
+}

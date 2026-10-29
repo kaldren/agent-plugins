@@ -1,0 +1,8 @@
+{
+  "name": "learn",
+  "description": "Learning skills: page-teach-me builds a claude.ai page that teaches any subject.",
+  "author": {
+    "name": "Kaloyan"
+  },
+  "skills": ["./skills/"]
+}

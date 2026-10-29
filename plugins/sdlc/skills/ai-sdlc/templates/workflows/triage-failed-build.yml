@@ -1,0 +1,12 @@
+# Read-only judgment step: when the build fails, Claude triages the log and posts a short summary.
+# Add as a final step to your existing CI job (the build step should tee its output to out/build.log).
+      - name: Triage failed build
+        if: failure()
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          claude -p "Read the build log at out/build.log. Identify the most likely cause, say whether the failure looks flaky or real, and write a three-line summary for the PR thread." \
+            --allowedTools "Read,Grep,Glob" >> triage.md
+          cat triage.md >> "$GITHUB_STEP_SUMMARY"
+      # Optional: post triage.md to the PR with `gh pr comment --body-file triage.md` (needs pull-requests: write).

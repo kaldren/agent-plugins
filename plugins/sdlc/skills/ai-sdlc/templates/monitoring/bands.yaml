@@ -1,0 +1,11 @@
+# Response tiers for one control band. Version-controlled; the detection script stays deterministic.
+metric: ci_test_failure_rate
+owner: <service owner>
+baseline: rolling_30d
+rules: western_electric
+tiers:
+  1sigma: { action: log }
+  2sigma: { action: diagnose,                       # Claude read-only, writes intent.md
+            tools: "Read,Grep,Glob,Bash(gh run view *),Bash(gh run list *)" }
+  3sigma: { action: propose,                        # Claude may open a PR or run a pre-approved runbook
+            routes: [pull_request, runbook:rollback-deploy] }

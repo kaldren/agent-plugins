@@ -1,0 +1,8 @@
+{
+  "name": "sdlc",
+  "description": "Skills and agents for the AI-native SDLC: the ai-sdlc rollout coach and the sdlc-loop change process.",
+  "author": {
+    "name": "Kaloyan"
+  },
+  "skills": ["./skills/"]
+}

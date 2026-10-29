@@ -1,0 +1,19 @@
+{
+  "name": "kaldren",
+  "owner": {
+    "name": "Kaloyan"
+  },
+  "description": "Kaloyan's skills and agents for Claude Code and Codex.",
+  "plugins": [
+    {
+      "name": "sdlc",
+      "source": "./plugins/sdlc",
+      "description": "Skills and agents for the AI-native SDLC: the ai-sdlc rollout coach and the sdlc-loop change process."
+    },
+    {
+      "name": "learn",
+      "source": "./plugins/learn",
+      "description": "Learning skills: page-teach-me builds a claude.ai page that teaches any subject."
+    }
+  ]
+}
