@@ -7,7 +7,7 @@ My skills and agents for Claude Code and Codex, kept in one place so every lapto
 | `sdlc` | `ai-sdlc` and `sdlc-loop` skills, `code-reviewer` agent | yes | yes |
 | `learn` | `page-teach-me` skill (publishes claude.ai pages) | yes | no |
 
-In Claude, plugin contents are prefixed with the plugin name: `sdlc:sdlc-loop`, `learn:page-teach-me`. In Codex they keep their plain names (`$sdlc-loop`).
+Both tools prefix plugin skills with the plugin name: `sdlc:sdlc-loop`, `learn:page-teach-me`. Agents keep their plain names in Codex (`code-reviewer`) and get the prefix in Claude (`sdlc:code-reviewer`).
 
 ## Set up a new laptop
 
