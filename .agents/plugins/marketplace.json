@@ -12,6 +12,11 @@
       "name": "sdlc",
       "source": "./plugins/sdlc",
       "description": "Skills and agents for the AI-native SDLC: the ai-sdlc rollout coach and the sdlc-loop change process."
+    },
+    {
+      "name": "agent-plugins",
+      "source": "./plugins/agent-plugins",
+      "description": "Authoring tools for this repo: the create skill adds skills, agents and plugins in the right folder structure for Claude and Codex."
     }
   ]
 }

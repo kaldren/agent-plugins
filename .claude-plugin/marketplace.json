@@ -14,6 +14,11 @@
       "name": "learn",
       "source": "./plugins/learn",
       "description": "Learning skills: page-teach-me builds a claude.ai page that teaches any subject."
+    },
+    {
+      "name": "agent-plugins",
+      "source": "./plugins/agent-plugins",
+      "description": "Authoring tools for this repo: the create skill adds skills, agents and plugins in the right folder structure for Claude and Codex."
     }
   ]
 }

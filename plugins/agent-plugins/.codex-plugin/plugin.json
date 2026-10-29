@@ -1,0 +1,10 @@
+{
+  "name": "agent-plugins",
+  "description": "Authoring tools for this repo: the create skill adds skills, agents and plugins in the right folder structure for Claude and Codex.",
+  "author": {
+    "name": "Kaloyan"
+  },
+  "skills": [
+    "./skills/"
+  ]
+}

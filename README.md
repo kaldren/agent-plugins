@@ -6,6 +6,7 @@ My skills and agents for Claude Code and Codex, kept in one place so every lapto
 |---|---|---|---|
 | `sdlc` | `ai-sdlc` and `sdlc-loop` skills, `code-reviewer` agent | yes | yes |
 | `learn` | `page-teach-me` skill (publishes claude.ai pages) | yes | no |
+| `agent-plugins` | `create` skill: adds skills, agents and plugins to this repo | yes | yes |
 
 Both tools prefix plugin skills with the plugin name: `sdlc:sdlc-loop`, `learn:page-teach-me`. Agents keep their plain names in Codex (`code-reviewer`) and get the prefix in Claude (`sdlc:code-reviewer`).
 
@@ -24,13 +25,15 @@ gh auth setup-git
 /plugin marketplace add kaldren/agent-plugins
 /plugin install sdlc@kaldren
 /plugin install learn@kaldren
+/plugin install agent-plugins@kaldren
 ```
 
 **Codex**
 
 ```
 codex plugin marketplace add kaldren/agent-plugins
-codex                      # then /plugins → kaldren → install sdlc
+codex plugin add sdlc@kaldren
+codex plugin add agent-plugins@kaldren
 ```
 
 Codex plugins can't carry agents, so install those from a clone:
@@ -48,4 +51,4 @@ git clone https://github.com/kaldren/agent-plugins ~/Projects/agent-plugins
 
 ## Add a skill, agent or plugin
 
-See [AGENTS.md](AGENTS.md).
+Ask Claude or Codex to "create a skill/agent for my plugins repo": the `agent-plugins:create` skill handles the folder layout, manifests, checks and updates. Conventions are in [AGENTS.md](AGENTS.md).
