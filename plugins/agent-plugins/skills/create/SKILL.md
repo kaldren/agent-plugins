@@ -5,7 +5,7 @@ description: Create a new skill, agent or plugin in Kaloyan's agent-plugins repo
 
 # Create a skill, agent or plugin in agent-plugins
 
-You add things to the user's `agent-plugins` repo so they install in Claude Code and Codex on every laptop. The repo's `AGENTS.md` holds the conventions. Read it first; if it disagrees with this file, `AGENTS.md` wins.
+You add things to the user's `agent-plugins` repo, where they keep their skills and agents for Claude Code and Codex. The repo's `AGENTS.md` holds the conventions. Read it first; if it disagrees with this file, `AGENTS.md` wins.
 
 ## 1. Find the repo and sync it
 
@@ -81,7 +81,7 @@ tools: Read, Grep, Glob, Bash
 
 ## 5. Update the README
 
-Keep the plugin table in `README.md` in step: the plugin row lists its skills and agents and whether it's in Claude and/or Codex. For a new plugin, add its `install` line to the "Set up a new laptop" section.
+Keep the plugin table in `README.md` in step: the plugin row lists its skills and agents and whether it's in Claude and/or Codex. For a new plugin, add its install lines to the "Install" section.
 
 ## 6. Check
 
@@ -94,13 +94,13 @@ python3 -m json.tool <each manifest you touched> > /dev/null
 ./install-codex-agents.sh                      # if you added or changed an agent
 ```
 
-Ignore the "no version", "README missing", "LICENSE missing" and "icon" warnings; they only matter for the public plugin directory. Without the `claude` CLI (e.g. a Codex-only laptop), check JSON validity and frontmatter by hand.
+Ignore the "no version", "README missing", "LICENSE missing" and "icon" warnings; they only matter for the public plugin directory. Without the `claude` CLI, check JSON validity and frontmatter by hand.
 
 ## 7. Commit, push, update
 
 1. Show the user the new files (and the diff for anything changed), then **ask before committing and pushing**.
 2. Commit with a message like `Add <name> skill to <plugin>` and push to `main`.
-3. Refresh the installed copies on this laptop, since both tools run cached copies, not the repo folder:
+3. Refresh the installed copies, since both tools run cached copies, not the repo folder:
    - Claude: `claude plugin marketplace update kaldren`. For a new plugin, also `claude plugin install <plugin>@kaldren`. Restart Claude to load it.
    - Codex: `codex plugin marketplace upgrade`. For a new plugin, also `codex plugin add <plugin>@kaldren`. Agents: `./install-codex-agents.sh`.
-4. Tell the user what was added, its full name in each tool (e.g. `sdlc:write-intent`), and that other laptops pick it up with the same update commands.
+4. Tell the user what was added, and its full name in each tool (e.g. `sdlc:write-intent`).

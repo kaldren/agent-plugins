@@ -1,6 +1,6 @@
 # agent-plugins
 
-My skills and agents for Claude Code and Codex, kept in one place so every laptop gets the same set.
+My skills and agents for Claude Code and Codex.
 
 | Plugin | Contents | Claude | Codex |
 |---|---|---|---|
@@ -10,7 +10,7 @@ My skills and agents for Claude Code and Codex, kept in one place so every lapto
 
 Both tools prefix plugin skills with the plugin name: `sdlc:sdlc-loop`, `learn:page-teach-me`. Agents keep their plain names in Codex (`code-reviewer`) and get the prefix in Claude (`sdlc:code-reviewer`).
 
-## Set up a new laptop
+## Install
 
 The repo is private, so git needs GitHub credentials first:
 
