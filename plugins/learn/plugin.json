@@ -1,6 +1,6 @@
 {
   "name": "learn",
-  "description": "Learning skills: page-teach-me builds a claude.ai page that teaches any subject.",
+  "description": "Learning skills: page-teach-me builds a claude.ai page that teaches any subject; use-case-lab builds small runnable tech demos to learn from and propose architectures.",
   "author": {
     "name": "Kaloyan"
   },
