@@ -58,7 +58,7 @@ Adapt section names and order to the subject. Leave out whatever doesn't apply, 
 
 ## 5. Build and publish on claude.ai
 
-- Run the Artifact tool's `quickstart` with intent `other` to load the page-design guidance. Load `dataviz` before drawing any chart.
+- Before writing, read the artifact publishing tool's own guidance on page rules and design (e.g. its `guide` topics `pages` and `design`). Load `dataviz` before drawing any chart.
 - Write one self-contained HTML page in the scratchpad. Treat it as a polished reference rather than a landing page:
   - narrow reading column;
   - sticky table of contents on wide screens, hidden on phones;

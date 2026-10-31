@@ -35,10 +35,10 @@ The playbook groups 14 plays into six stages, but **stage order is not adoption 
 3. P1 setup — intent home (`intent/` folder), intent template, commit.
 
 **Phase 2 — The artifact chain, by hand, on the pilot change**
-4. P1 Capture the pilot `intent.md` (`/ai-sdlc intent`).
+4. P1 Capture the pilot `intent.md` (`ai-sdlc intent`).
 5. P5 First policy skill — the one most inconsistently applied (needed by P2).
-6. P2 `spec.md` from the intent (`/ai-sdlc spec`).
-7. P3 Plan mode → `plan.md` → implement in one pass (`/ai-sdlc plan`).
+6. P2 `spec.md` from the intent (`ai-sdlc spec`).
+7. P3 Plan mode → `plan.md` → implement in one pass (`ai-sdlc plan`).
 → Checkpoint: walk the user through the chain in `git log` — that's their audit trail.
 
 **Phase 3 — Guardrails**

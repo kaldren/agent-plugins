@@ -1,6 +1,7 @@
 ---
 name: ai-sdlc
-description: Step-by-step coach for adopting the AI-Native SDLC (Anthropic's AI-Native SDLC Playbook) in a project — the Plan → Design → Build → Test → Deploy → Maintain loop built on committed artifacts (intent.md, spec.md, plan.md, CLAUDE.md, skills, hooks, REVIEW.md, evals, control bands). Asks kickoff questions about the project, builds a tailored roadmap, tells the user what they must set up themselves, scaffolds the files, and tracks progress across sessions. Also runs the day-to-day loop (capture an intent, turn it into a spec, plan in plan mode), and has an ask mode that just answers questions about the playbook — "how should I…", "what does the playbook say about…", "do I need X before Y?" — without starting the guided rollout. Use whenever the user mentions AI-SDLC, AI-native SDLC, the playbook, intent.md/spec.md/plan.md, setting up a new project "the AI-native way", adding agentic review/hooks/evals/closing the loop to a repo, or asks "what's the next step" in their AI-SDLC rollout, or asks a question about any of these topics — even if they don't name the skill.
+description: Manual-only coach for adopting the AI-Native SDLC (Anthropic's AI-Native SDLC Playbook) in a project — the Plan → Design → Build → Test → Deploy → Maintain loop built on committed artifacts (intent.md, spec.md, plan.md, CLAUDE.md, skills, hooks, REVIEW.md, evals, control bands). Kicks off and tracks a tailored rollout, runs the per-change loop (intent → spec → plan), and answers playbook questions in ask mode. Invoked only by the user.
+disable-model-invocation: true
 argument-hint: "[ask <question> | start | status | next | stage <1-6> | play <name> | intent | spec <intent path> | plan <spec path> | help]"
 ---
 
@@ -9,6 +10,8 @@ argument-hint: "[ask <question> | start | status | next | stage <1-6> | play <na
 You are guiding the user through adopting the AI-Native SDLC in **the current project**, one play at a time, starting with the basics. The source is Anthropic's *AI-Native SDLC Playbook* (Louis Claxton). Its core idea: code is no longer the bottleneck, so the stages around Build (plan, review, test, deploy) must be rebuilt so they also run at agent speed — while humans stay accountable at the gates.
 
 Arguments passed: `$ARGUMENTS`
+
+This skill runs only when the user invokes it: `/sdlc:ai-sdlc <args>` in Claude Code, `$sdlc:ai-sdlc <args>` in Codex. Below, `ai-sdlc <args>` means either form.
 
 ## The five ideas to keep in your head
 
@@ -25,7 +28,7 @@ Everything in this skill follows from these. When the user asks "why", answer fr
 | Argument | What to do |
 |---|---|
 | `ask <question>`, or any argument that is a question rather than a command (e.g. "how do I protect tests?", "do I need evals for a solo project?") | **Ask mode** (below). Answer only; don't start or resume the guided rollout. |
-| empty or `start` | If the skill was triggered by a question in the user's message (not a request to set up or continue the rollout) → **Ask mode**. Else if `docs/ai-sdlc/progress.md` exists → behave like `status` then `next`. Otherwise → **Kickoff** (below). |
+| empty or `start` | If the user's message is a question (not a request to set up or continue the rollout) → **Ask mode**. Else if `docs/ai-sdlc/progress.md` exists → behave like `status` then `next`. Otherwise → **Kickoff** (below). |
 | `status` | Read the progress file; show the profile in 2–3 lines, the roadmap with ✅/🟡/⬜, and the single next play. |
 | `next` | Resume the next unfinished play in the roadmap (see **Guiding a play**). |
 | `stage <n>` / `play <name>` | Jump to that stage/play. Check its prerequisites against progress first and say plainly if something it depends on is missing. |
@@ -39,7 +42,7 @@ Everything in this skill follows from these. When the user asks "why", answer fr
 The goal of kickoff is a **project profile** good enough to tailor every later recommendation. Don't ask what you can discover.
 
 1. **Scan before asking.** Look at the repo yourself: is it a git repo, which remote host, languages/frameworks, package manager, how build/test/lint run today (Makefile, package.json scripts, pyproject, etc.), whether `CLAUDE.md`, `.claude/`, `REVIEW.md`, `.github/workflows/` or `.gitlab-ci.yml` exist, test folders, Dockerfiles, deployment config, existing `intent/` or `docs/`. Note `jq` availability (the hook templates use it). An empty folder is a valid answer — it means "new project".
-2. **Ask the kickoff questions** in `references/kickoff-questions.md`. Use the AskUserQuestion tool, in rounds of up to 4, skipping anything the scan already answered or that a previous answer made irrelevant (e.g. skip the monitoring round if the user's ambition stops at Build). Tell the user what you detected so they can correct it.
+2. **Ask the kickoff questions** in `references/kickoff-questions.md`. Ask them as short multiple-choice questions, in rounds of up to 4, skipping anything the scan already answered or that a previous answer made irrelevant (e.g. skip the monitoring round if the user's ambition stops at Build). Tell the user what you detected so they can correct it.
 3. **Write the profile and a tailored roadmap** to `docs/ai-sdlc/progress.md` using `templates/progress.md`. Build the roadmap from `references/roadmap.md`, applying its tailoring rules for the profile (solo vs team, regulated or not, ambition). Show it to the user and ask whether the order works for them before starting.
 4. **Start Phase 0/1** immediately unless the user wants to stop there.
 
@@ -49,7 +52,7 @@ The progress file lives in the repo on purpose — it is the first artifact of t
 
 Sometimes the user wants answers, not a coach. In ask mode the playbook is a reference you answer from, and the user stays in charge of what happens next.
 
-1. **Find the answer in the references.** Use the reference map below to read only the file(s) that cover the question. Ground the answer in the playbook — its plays (P1–P14), artifacts, gates and the five ideas — and say which play or stage it comes from so the user can go deeper (`/ai-sdlc play <name>`).
+1. **Find the answer in the references.** Use the reference map below to read only the file(s) that cover the question. Ground the answer in the playbook — its plays (P1–P14), artifacts, gates and the five ideas — and say which play or stage it comes from so the user can go deeper (`ai-sdlc play <name>`).
 2. **Tailor it if you can, cheaply.** If `docs/ai-sdlc/progress.md` exists, read the profile and roadmap and answer for *this* project (solo vs team, regulated, CI platform, what's already ✅). If it doesn't exist, glance at the repo only when the question depends on it (e.g. "which hook should I add first here?"). Never run kickoff or ask the kickoff questions in ask mode.
 3. **Ask back only when the answer really forks.** If the right answer depends on something you can't discover (e.g. team size, regulated or not), ask one short question — or give the answer for each case. Don't turn a question into an interview.
 4. **Answer, then stop.** Lead with the direct answer in a few sentences, then the reasoning, then concrete examples (a snippet, a file path, a command) if they help. Don't write files, update the progress file, or start the next play. If acting on the answer is an obvious next step, offer it in one line ("Want me to scaffold that hook?") and wait.
@@ -94,6 +97,6 @@ Templates are in `templates/` — each stage file says which ones it uses.
 - **Start small and real.** The best teacher is one pilot change pushed through the loop by hand (intent → spec → plan → implement → review). Ask for a real, small change at kickoff and use it as soon as Phase 2 starts.
 - **Tailor the ceremony.** A solo developer wears every hat (originator, product owner, tech lead, release manager). Keep the artifacts and the gates — they're what make the agent's work reviewable — but collapse sign-offs into a deliberate self-review moment, and skip org-only plays (managed settings via MDM, policy-owner routing) unless asked. A regulated team needs the opposite: separation of duties, managed settings and legacy-system linkage early.
 - **Prefer the repo's real commands** over the playbook's `make` examples, and the repo's real CI platform over GitHub Actions examples.
-- **Be honest about maturity.** Some features the playbook mentions are beta or research preview (Claude Design, managed Code Review, Claude Tag). Say so, and check the current docs (links in `references/governance-and-metrics.md`) before relying on exact flags or setting keys — use the claude-code-guide agent or WebFetch if you're unsure a key still exists.
+- **Be honest about maturity.** Some features the playbook mentions are beta or research preview (Claude Design, managed Code Review, Claude Tag). Say so, and check the current docs (links in `references/governance-and-metrics.md`) before relying on exact flags or setting keys — fetch the page if you're unsure a key still exists.
 - **Keep CLAUDE.md under a page.** Whenever a play wants to add guidance, put durable conventions in CLAUDE.md, enforceable policy in a skill + hook, and one-off context in the prompt.
 - **Explain what each gate buys** in control terms (who approves, what's logged, what's enforced). That's what lets the user defend the process to a team or auditor later.

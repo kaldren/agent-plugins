@@ -1,6 +1,6 @@
 # Kickoff questions
 
-Ask these at the start of each project to tailor the roadmap. Use AskUserQuestion, up to 4 questions per round, 2–4 options each (the tool adds "Other" automatically). **Skip any question the repo scan already answered** — state what you detected instead ("I see a Next.js app on GitHub with Vitest; correct me if that's wrong"). Skip whole rounds that the user's ambition makes irrelevant.
+Ask these at the start of each project to tailor the roadmap. Ask up to 4 multiple-choice questions per round, 2–4 options each, and always let the user answer in their own words instead. **Skip any question the repo scan already answered** — state what you detected instead ("I see a Next.js app on GitHub with Vitest; correct me if that's wrong"). Skip whole rounds that the user's ambition makes irrelevant.
 
 After each round, write the answers into the Profile section of `docs/ai-sdlc/progress.md`, with one line on what each answer changes in the roadmap.
 

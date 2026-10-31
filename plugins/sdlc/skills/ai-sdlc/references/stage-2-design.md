@@ -12,7 +12,7 @@
 - Resolve each flagged concern with its policy owner before engineering sees the spec.
 - Decide whether the spec progresses to build; consult a tech lead if the change is higher risk.
 
-## Producing a spec (`/ai-sdlc spec <intent path>`)
+## Producing a spec (`ai-sdlc spec <intent path>`)
 
 1. **Load context:** the intent.md, CLAUDE.md, and the relevant policy skills. For changes to an existing codebase, read the code the change will touch so the spec fits reality.
 2. **Run the spec pass.** The playbook's prompt, which is what you're executing:

@@ -74,8 +74,6 @@ Include a simpler baseline or component-removal comparison when useful, plus a m
 
 Run feasible comparisons yourself and record what happened. Leave prediction prompts and reproducible steps so the user can repeat them; do not force a quiz or wait for answers unless they asked for interactive coaching. For variable model outputs, distinguish observations from guarantees and repeat only enough to support the claim being made.
 
-If the available `ai-teach-me:note` skill applies to accepted or added technologies, invoke it according to its instructions. Link to its notes for deeper background while keeping this lab's explanation specific to the implementation. This skill must also work without that integration.
-
 ## 5. Write concise documentation tied to the actual build
 
 Create two Markdown files in the use-case project, adapting existing documentation instead of duplicating it. Keep them aligned with the final implementation, including any stack changes.

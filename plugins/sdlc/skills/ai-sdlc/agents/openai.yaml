@@ -1,0 +1,5 @@
+interface:
+  display_name: "AI-SDLC coach"
+  short_description: "Roll out and run the AI-Native SDLC loop in a project"
+policy:
+  allow_implicit_invocation: false

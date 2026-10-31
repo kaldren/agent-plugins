@@ -20,7 +20,7 @@ Ask only for what you can't infer from the request (one short round of questions
 - **Kind.** A *skill* is instructions the main agent loads when a task matches (a procedure, conventions, a workflow, a reference). An *agent* is a separate worker with its own prompt and tools that the main agent delegates to (a reviewer, a researcher, a verifier). When unsure, suggest a skill.
 - **Purpose and triggers.** What it does, and the phrases or situations that should make it fire.
 - **Name.** Lowercase kebab-case, at most 64 characters, e.g. `write-intent`, `pr-reviewer`. Must not clash with an existing skill or agent in the repo.
-- **Plugin.** List the current plugins from `.claude-plugin/marketplace.json` with their descriptions and suggest the best fit. If none fits, propose a new plugin (step 4). Keep in mind that the plugin name becomes the prefix in both tools, as in `sdlc:sdlc-loop`.
+- **Plugin.** List the current plugins from `.claude-plugin/marketplace.json` with their descriptions and suggest the best fit. If none fits, propose a new plugin (step 4). Keep in mind that the plugin name becomes the prefix in both tools, as in `sdlc:ai-sdlc`.
 - **Tools.** Both Claude and Codex unless it depends on something only one has (e.g. claude.ai artifacts, Claude-only MCP tools). A Claude-only skill goes in a plugin that's left out of the Codex marketplace; don't put it in a plugin Codex installs.
 
 State your choices in one or two lines (kind, name, plugin, tools) and carry on unless the user objects.
@@ -44,6 +44,7 @@ description: <What it does, then when to use it: trigger phrases and situations.
 - The description is the only part loaded until the skill fires, so it decides whether the skill triggers at all. Put the trigger words there, not in the body.
 - Keep `SKILL.md` under ~500 lines. Move long reference material to `references/<topic>.md`, reusable files to `templates/` or `assets/`, and deterministic steps to `scripts/`. Link each one from `SKILL.md` and say when to read or run it.
 - If it runs in both tools, write tool-neutral instructions: "ask the user", "read the file", "run the command", not Claude- or Codex-specific tool names. Refer to another skill by name and purpose, not by a slash command, since the invocation differs (`/sdlc:ai-sdlc` in Claude, `$sdlc:ai-sdlc` in Codex).
+- **Manual-only skill** (runs only when the user invokes it, never auto-triggers): add `disable-model-invocation: true` to the frontmatter for Claude, and create `agents/openai.yaml` next to `SKILL.md` with `policy:` / `  allow_implicit_invocation: false` for Codex.
 - No manifest changes are needed: `skills/` is picked up automatically.
 
 ### Agent → `plugins/<plugin>/agents/<name>.md`

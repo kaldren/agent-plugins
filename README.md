@@ -4,11 +4,11 @@ My skills and agents for Claude Code and Codex.
 
 | Plugin | Contents | Claude | Codex |
 |---|---|---|---|
-| `sdlc` | `ai-sdlc` and `sdlc-loop` skills, `code-reviewer` agent | yes | yes |
+| `sdlc` | `ai-sdlc` skill (manual only: `/sdlc:ai-sdlc`, `$sdlc:ai-sdlc`), `code-reviewer` agent | yes | yes |
 | `learn` | `page-teach-me` skill (publishes claude.ai pages), `use-case-lab` skill | yes | no |
 | `agent-plugins` | `create` skill: adds skills, agents and plugins to this repo | yes | yes |
 
-Both tools prefix plugin skills with the plugin name: `sdlc:sdlc-loop`, `learn:page-teach-me`. Agents keep their plain names in Codex (`code-reviewer`) and get the prefix in Claude (`sdlc:code-reviewer`).
+Both tools prefix plugin skills with the plugin name: `sdlc:ai-sdlc`, `learn:page-teach-me`. Agents keep their plain names in Codex (`code-reviewer`) and get the prefix in Claude (`sdlc:code-reviewer`).
 
 ## Install
 

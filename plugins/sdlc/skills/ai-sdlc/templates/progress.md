@@ -1,6 +1,6 @@
 # AI-SDLC progress — <project name>
 
-Coach: `/ai-sdlc` (status: `/ai-sdlc status`, continue: `/ai-sdlc next`)
+Coach: `/sdlc:ai-sdlc` in Claude Code, `$sdlc:ai-sdlc` in Codex (status: `… status`, continue: `… next`)
 Started: <YYYY-MM-DD>
 
 ## Profile

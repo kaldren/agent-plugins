@@ -1,6 +1,6 @@
 {
   "name": "sdlc",
-  "description": "Skills and agents for the AI-native SDLC: the ai-sdlc rollout coach and the sdlc-loop change process.",
+  "description": "Skills and agents for the AI-native SDLC: the manual-only ai-sdlc coach (rollout, per-change loop, playbook Q&A) and the code-reviewer agent.",
   "author": {
     "name": "Kaloyan"
   },

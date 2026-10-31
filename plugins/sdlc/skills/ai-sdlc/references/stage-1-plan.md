@@ -23,7 +23,7 @@
 
 **Done when:** `intent/_TEMPLATE.md` and `intent/README.md` are committed.
 
-## Part B — Capturing an intent (`/ai-sdlc intent`)
+## Part B — Capturing an intent (`ai-sdlc intent`)
 
 1. **Let the originator describe the problem in their own words** — what they can't do today, who's affected, what better looks like, what's out of scope. No formal language required.
 2. **Brainstorm until it's concrete.** Ask the questions an analyst would — one or two at a time, not a questionnaire:

@@ -33,7 +33,7 @@ Work starts with a written plan Claude produces in plan mode, where it can read 
 
 **Prerequisites:** intent.md/spec.md if they exist; CLAUDE.md helps. **Infrastructure:** Claude Code with repo access.
 
-### Running it (`/ai-sdlc plan <spec path>`)
+### Running it (`ai-sdlc plan <spec path>`)
 
 Plan mode is a session permission mode, entered by the user: **Shift+Tab** to cycle into plan mode, or start with `claude --permission-mode plan`. If this skill is invoked outside plan mode, tell the user to switch (or use the EnterPlanMode tool if available) — the point is that edits are impossible until the plan is accepted.
 

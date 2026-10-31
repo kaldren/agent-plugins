@@ -11,7 +11,7 @@ Kaloyan's skills and agents, packaged as plugins for Claude Code and Codex. Layo
 
 ## Adding things
 
-- **Skill:** create `plugins/<plugin>/skills/<name>/SKILL.md` with `name` and `description` frontmatter. `name` must match the folder. No manifest changes needed.
+- **Skill:** create `plugins/<plugin>/skills/<name>/SKILL.md` with `name` and `description` frontmatter. `name` must match the folder. No manifest changes needed. To make it manual-only (slash command, never auto-triggered), add `disable-model-invocation: true` (Claude) and an `agents/openai.yaml` with `policy.allow_implicit_invocation: false` (Codex), as `ai-sdlc` does.
 - **Agent:** create `plugins/<plugin>/agents/<name>.md` with `name`, `description` and optionally `tools`, `model` and `codex-model` frontmatter. Use simple one-line `key: value` frontmatter; the converter doesn't read multi-line YAML. Run `./install-codex-agents.sh` to check it converts.
 - **Plugin:** create `plugins/<name>/` with the three `plugin.json` files and add an entry to both marketplace files. Leave it out of the Codex marketplace if it only makes sense in Claude (like `learn`, which publishes claude.ai pages).
 - Don't add a `version` field to manifests: without one, every commit counts as an update.
