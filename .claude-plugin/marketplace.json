@@ -19,6 +19,11 @@
       "name": "agent-plugins",
       "source": "./plugins/agent-plugins",
       "description": "Authoring tools for this repo: the create skill adds skills, agents and plugins in the right folder structure for Claude and Codex."
+    },
+    {
+      "name": "devenv",
+      "source": "./plugins/devenv",
+      "description": "Local dev environment skills: parallel-worktrees gives every git worktree its own http://<name>.<app>.localhost dev server (Caddy), one shared DB, and auto-boot via Claude Code hooks, so several agents can build features in parallel."
     }
   ]
 }
